@@ -12,7 +12,7 @@ const newsletterTemplatePath = join(__dirname, "..", "templates", "newsletterTem
 const newsletterTemplateSource = fs.readFileSync(newsletterTemplatePath, "utf8");
 const newsletterTemplate = handlebars.compile(newsletterTemplateSource);
 
-const sendEmail = async ({ to, subject, text, html, from }) => {
+const sendEmail = async ({ to: string, subject: string, text: string, html: any, from: string }) => {
   try {
     const transporter = nodemailer.createTransport({
       host: "smtp-relay.brevo.com",
