@@ -3,6 +3,7 @@ import dbConnect from '@/lib/db';
 import Post from '@/models/Post';
 import { requireAuth } from '@/lib/requireAuth';
 import { slugify } from '@/utils/slug';
+import { calculateReadingTime } from '@/utils/readingTime';
 import cloudinary from '@/utils/cloudinary';
 
 export async function GET(req: Request) {
@@ -40,6 +41,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
   }
   const slug = slugify(title);
+  const readingTime = calculateReadingTime(content);
 
   let finalCover = coverImageUrl as string | undefined;
   if (!finalCover) {
@@ -50,6 +52,6 @@ export async function POST(req: Request) {
     }
   }
 
-  const doc = await Post.create({ title, description, content, coverImageUrl: finalCover, slug, status: status === 'published' ? 'published' : 'draft' });
+  const doc = await Post.create({ title, description, content, coverImageUrl: finalCover, slug, status: status === 'published' ? 'published' : 'draft', readingTime });
   return NextResponse.json(doc, { status: 201 });
 }

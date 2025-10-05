@@ -6,8 +6,8 @@ const PostSchema = new Schema(
     description: { type: String, required: true },
     content: { type: String, required: true },
     coverImageUrl: { type: String },
-    slug: { type: String, unique: true, index: true },
     status: { type: String, enum: ['draft', 'published'], default: 'draft' },
+    readingTime: { type: Number, default: 0 }, // in minutes
     author: { type: Types.ObjectId, ref: 'User' }
   },
   { timestamps: true }
@@ -21,6 +21,7 @@ export type PostDoc = {
   coverImageUrl?: string;
   slug?: string;
   status: 'draft' | 'published';
+  readingTime: number;
   author?: string;
 };
 
