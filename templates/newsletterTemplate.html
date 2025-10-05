@@ -119,6 +119,17 @@
             opacity: 0.7;
             margin-top: 20px;
         }
+        .attachment-notice {
+            background-color: #e8f4fd;
+            border: 1px solid #bee5eb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .attachment-notice strong {
+            color: #0c5460;
+        }
         @media (max-width: 600px) {
             .container {
                 width: 100%;
@@ -133,7 +144,7 @@
     <div class="container">
         <div class="header">
             <h1>{{brandName}}</h1>
-            <p>Your gateway to amazing content and insights</p>
+            <p>Your gateway to wellness and confidence in your 40s+</p>
         </div>
 
         <div class="content">
@@ -143,22 +154,28 @@
 
             <div class="message">
                 {{#if isWelcome}}
-                    <p>Welcome to the <strong>{{brandName}}</strong> newsletter! We're thrilled to have you join our community of curious minds and creative spirits.</p>
-                    <p>You'll receive regular updates about our latest blog posts, insights, and exclusive content delivered straight to your inbox.</p>
+                    <p>Welcome to the <strong>{{brandName}}</strong> newsletter! We're thrilled to have you join our community of confident women navigating their 40s and beyond.</p>
+                    <p>You'll receive regular updates about wellness, premenopause insights, and exclusive content delivered straight to your inbox.</p>
                 {{else}}
                     <p>{{message}}</p>
                 {{/if}}
             </div>
 
+            {{#if showAttachmentNotice}}
+            <div class="attachment-notice">
+                <strong>📎 PDF Attachment:</strong> "Finding Confidence in Pre-Menopause" eBook included with this email
+            </div>
+            {{/if}}
+
             {{#if showFeatures}}
             <div class="features">
                 <h3>What you'll get:</h3>
                 <ul>
-                    <li>Exclusive blog posts and articles</li>
-                    <li>Behind-the-scenes insights</li>
-                    <li>Early access to new content</li>
-                    <li>Tips, tricks, and industry insights</li>
-                    <li>Special offers and announcements</li>
+                    <li>Exclusive wellness insights for women 40+</li>
+                    <li>Premenopause guidance and support</li>
+                    <li>Confidence-building strategies</li>
+                    <li>Health and wellness tips</li>
+                    <li>Community stories and experiences</li>
                 </ul>
             </div>
             {{/if}}
@@ -172,7 +189,7 @@
 
         <div class="footer">
             <p><strong>{{brandName}}</strong></p>
-            <p>Creating amazing content for curious minds</p>
+            <p>Empowering women through their wellness journey</p>
 
             {{#if socialLinks}}
             <div class="social-links">

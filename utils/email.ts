@@ -12,7 +12,7 @@ const newsletterTemplatePath = join(__dirname, "..", "templates", "newsletterTem
 const newsletterTemplateSource = fs.readFileSync(newsletterTemplatePath, "utf8");
 const newsletterTemplate = handlebars.compile(newsletterTemplateSource);
 
-const sendEmail = async ({ to, subject, text, html, from}: any) => {
+const sendEmail = async ({ to, subject, text, html, from, attachments = [] }: any) => {
   try {
     const transporter = nodemailer.createTransport({
       host: "smtp-relay.brevo.com",
@@ -32,6 +32,7 @@ const sendEmail = async ({ to, subject, text, html, from}: any) => {
       subject,
       text,
       html,
+      attachments,
     };
 
     const info = await transporter.sendMail(mailOptions);
@@ -52,21 +53,23 @@ type SendNewsletterEmailOptions = {
   showFeatures: boolean;
   socialLinks: any[];
   unsubscribeLink: string;
+  showAttachmentNotice?: boolean;
 };
 
 const sendNewsletterEmail = async (email: String, userName: String, options: SendNewsletterEmailOptions) => {
   const {
-    subject = "Welcome to Our Newsletter!",
-    brandName = "Brand Portfolio",
-    message = "Thank you for subscribing to our newsletter. Stay tuned for amazing content!",
+    subject = "Welcome to Confident Women - 40+ Wellness Premenopause!",
+    brandName = "Confident Women - 40+ Wellness Premenopause",
+    message = "Thank you for subscribing to our newsletter. Stay tuned for amazing wellness content!",
     ctaLink = "https://legendary-waddle-flax.vercel.app/",
     isWelcome = true,
     showFeatures = true,
     socialLinks = [
-      {url: "https://www.instagram.com/confident_women_40plus?igsh=MTM1YnpxYjJscHBnMA==", icon: "🐦", platform: "Instagram"},
-      {url: "https://www.tiktok.com/@wumimenopausematter?_t=ZN-8xQ9oMFKryg&_r=1", icon: "💼", platform: "Tiktok"},
+      {url: "https://www.instagram.com/confident_women_40plus?igsh=MTM1YnpxYjJscHBnMA==", icon: "📷", platform: "Instagram"},
+      {url: "https://www.tiktok.com/@wumimenopausematter?_t=ZN-8xQ9oMFKryg&_r=1", icon: "🎵", platform: "Tiktok"},
     ],
-    unsubscribeLink = null
+    unsubscribeLink = null,
+    showAttachmentNotice = false
   } = options;
 
   const html = newsletterTemplate({
@@ -78,16 +81,30 @@ const sendNewsletterEmail = async (email: String, userName: String, options: Sen
     isWelcome,
     showFeatures,
     socialLinks,
-    unsubscribeLink
+    unsubscribeLink,
+    showAttachmentNotice
   });
 
   const text = `Hello${userName ? ` ${userName}` : ''}!\n\n${message}\n\nBest regards,\n${brandName} Team`;
+
+  // Default PDF attachment
+  const attachments = [];
+  const pdfPath = join(__dirname, "..", "Finding Confidence in Pre-Menopause E book.pdf");
+
+  if (fs.existsSync(pdfPath)) {
+    attachments.push({
+      filename: "Finding Confidence in Pre-Menopause E book.pdf",
+      path: pdfPath,
+      contentType: "application/pdf"
+    });
+  }
 
   return sendEmail({
     to: email,
     subject,
     text,
     html,
+    attachments,
   });
 };
 
