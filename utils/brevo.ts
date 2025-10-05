@@ -10,8 +10,8 @@ export const brevo = new TransactionalEmailsApi();
 export const contacts = new ContactsApi();
 
 // Set API key for authentication
-brevo.authentications.apiKey.apiKey = apiKey || '';
-contacts.authentications.apiKey.apiKey = apiKey || '';
+// brevo.authentications.apiKey.apiKey = apiKey || '';
+// contacts.authentications.apiKey.apiKey = apiKey || '';
 
 export function getSender() {
   const email = process.env.BREVO_SENDER_EMAIL || 'no-reply@example.com';
