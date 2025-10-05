@@ -10,9 +10,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@getbrevo/brevo": "^2.1.1",
     "bcryptjs": "2.4.3",
     "cloudinary": "1.41.3",
     "handlebars": "^4.7.8",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "8.6.3",
     "next": "14.2.5",
     "nodemailer": "^7.0.6",

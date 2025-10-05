@@ -12,7 +12,7 @@ const newsletterTemplatePath = join(__dirname, "..", "templates", "newsletterTem
 const newsletterTemplateSource = fs.readFileSync(newsletterTemplatePath, "utf8");
 const newsletterTemplate = handlebars.compile(newsletterTemplateSource);
 
-const sendEmail = async ({ to: string, subject: string, text: string, html: any, from: string }) => {
+const sendEmail = async ({ to, subject, text, html, from}: any) => {
   try {
     const transporter = nodemailer.createTransport({
       host: "smtp-relay.brevo.com",
@@ -43,15 +43,29 @@ const sendEmail = async ({ to: string, subject: string, text: string, html: any,
   }
 };
 
-const sendNewsletterEmail = async (email, userName, options = {}) => {
+type SendNewsletterEmailOptions = {
+  subject: string;
+  brandName: string;
+  message: string;
+  ctaLink: string;
+  isWelcome: boolean;
+  showFeatures: boolean;
+  socialLinks: any[];
+  unsubscribeLink: string;
+};
+
+const sendNewsletterEmail = async (email: String, userName: String, options: SendNewsletterEmailOptions) => {
   const {
     subject = "Welcome to Our Newsletter!",
     brandName = "Brand Portfolio",
     message = "Thank you for subscribing to our newsletter. Stay tuned for amazing content!",
-    ctaLink = null,
+    ctaLink = "https://legendary-waddle-flax.vercel.app/",
     isWelcome = true,
     showFeatures = true,
-    socialLinks = [],
+    socialLinks = [
+      {url: "https://www.instagram.com/confident_women_40plus?igsh=MTM1YnpxYjJscHBnMA==", icon: "🐦", platform: "Instagram"},
+      {url: "https://www.tiktok.com/@wumimenopausematter?_t=ZN-8xQ9oMFKryg&_r=1", icon: "💼", platform: "Tiktok"},
+    ],
     unsubscribeLink = null
   } = options;
 
