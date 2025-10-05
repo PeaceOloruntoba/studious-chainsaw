@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Subscriber from '@/models/NewsletterSubscriber';
-import { contacts, getSender, brevo } from '@/utils/brevo';
+import emailUtils from '@/utils/email';
 
 export async function POST(req: Request) {
   await dbConnect();
@@ -13,21 +13,25 @@ export async function POST(req: Request) {
 
   const doc = await Subscriber.create({ email, name });
 
-  // Try to add to Brevo contacts (best-effort)
+  // Send welcome email using nodemailer with Brevo SMTP
   try {
-    await contacts.createContact({ email, attributes: { FIRSTNAME: name || '' }, updateEnabled: true });
-  } catch {}
-
-  // Send a simple confirmation email (best-effort)
-  try {
-    const sender = getSender();
-    await brevo.sendTransacEmail({
-      to: [{ email, name: name || email }],
-      subject: 'Subscription confirmed',
-      htmlContent: `<p>Thanks for subscribing!</p>`,
-      sender
+    await emailUtils.sendNewsletterEmail(email, name, {
+      subject: 'Welcome to Our Newsletter!',
+      brandName: 'Brand Portfolio',
+      message: 'Thank you for subscribing to our newsletter! You\'ll receive regular updates about our latest blog posts, insights, and exclusive content.',
+      ctaLink: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/blog`,
+      isWelcome: true,
+      showFeatures: true,
+      socialLinks: [
+        { platform: 'Twitter', icon: '🐦', url: 'https://twitter.com/yourbrand' },
+        { platform: 'LinkedIn', icon: '💼', url: 'https://linkedin.com/company/yourbrand' }
+      ],
+      unsubscribeLink: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/newsletter/unsubscribe?email=${email}`
     });
-  } catch {}
+  } catch (error) {
+    console.error('Failed to send welcome email:', error);
+    // Don't fail the subscription if email fails
+  }
 
   return NextResponse.json({ ok: true, id: doc._id });
 }

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{subject}}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .welcome {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .message {
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            margin: 20px 0;
+            transition: transform 0.2s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        .features {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        .features h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+        .features li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        .features li:before {
+            content: "✓";
+            color: #667eea;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .footer p {
+            margin-bottom: 15px;
+        }
+        .social-links {
+            margin: 20px 0;
+        }
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: background-color 0.3s ease;
+        }
+        .social-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .unsubscribe {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 20px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+            }
+            .header, .content, .footer {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{brandName}}</h1>
+            <p>Your gateway to amazing content and insights</p>
+        </div>
+
+        <div class="content">
+            <div class="welcome">
+                Hello{{#if userName}} {{userName}}{{/if}}!
+            </div>
+
+            <div class="message">
+                {{#if isWelcome}}
+                    <p>Welcome to the <strong>{{brandName}}</strong> newsletter! We're thrilled to have you join our community of curious minds and creative spirits.</p>
+                    <p>You'll receive regular updates about our latest blog posts, insights, and exclusive content delivered straight to your inbox.</p>
+                {{else}}
+                    <p>{{message}}</p>
+                {{/if}}
+            </div>
+
+            {{#if showFeatures}}
+            <div class="features">
+                <h3>What you'll get:</h3>
+                <ul>
+                    <li>Exclusive blog posts and articles</li>
+                    <li>Behind-the-scenes insights</li>
+                    <li>Early access to new content</li>
+                    <li>Tips, tricks, and industry insights</li>
+                    <li>Special offers and announcements</li>
+                </ul>
+            </div>
+            {{/if}}
+
+            {{#if ctaLink}}
+            <div style="text-align: center;">
+                <a href="{{ctaLink}}" class="cta-button">Visit Our Blog</a>
+            </div>
+            {{/if}}
+        </div>
+
+        <div class="footer">
+            <p><strong>{{brandName}}</strong></p>
+            <p>Creating amazing content for curious minds</p>
+
+            {{#if socialLinks}}
+            <div class="social-links">
+                {{#each socialLinks}}
+                <a href="{{this.url}}" title="{{this.platform}}">{{this.icon}}</a>
+                {{/each}}
+            </div>
+            {{/if}}
+
+            <div class="unsubscribe">
+                <p>You received this email because you subscribed to our newsletter.</p>
+                <p>If you no longer wish to receive these emails, you can <a href="{{unsubscribeLink}}" style="color: #667eea;">unsubscribe here</a>.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -29,7 +29,6 @@ npm install
 ```env
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=super_secret
-JWT_EXPIRES_IN=7d
 
 CLOUDINARY_CLOUD_NAME=...
 CLOUDINARY_API_KEY=...
@@ -37,9 +36,14 @@ CLOUDINARY_API_SECRET=...
 # Optional default image public id in your Cloudinary
 CLOUDINARY_DEFAULT_LANDSCAPE_PUBLIC_ID=sample
 
-BREVO_API_KEY=...
-BREVO_SENDER_EMAIL=no-reply@example.com
-BREVO_SENDER_NAME=Brand
+# Brevo (formerly Sendinblue) for emails and contacts
+BREVO_API_KEY=your-brevo-api-key
+BREVO_SENDER_EMAIL=your-email@yourdomain.com
+BREVO_SENDER_NAME=Your Brand Name
+
+# Brevo SMTP (alternative to API) for transactional emails
+BREVO_EMAIL=your-brevo-email@yourdomain.com
+BREVO_PASSWORD=your-brevo-smtp-password
 
 # Optional for server fetch in blog pages
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
@@ -75,7 +79,8 @@ curl -X POST http://localhost:3000/api/auth/register \
 ## Newsletter
 
 - Public subscribe endpoint: `POST /api/newsletter/subscribe` with JSON `{ email, name? }`
-- Admin list (requires auth) at `GET /api/newsletter/list` and visible in `/admin` dashboard.
+- Beautiful HTML welcome emails sent via nodemailer + Brevo SMTP with handlebars templates
+- Admin list (requires auth) at `GET /api/newsletter/list` and visible in `/admin` dashboard
 
 ## Uploads
 
